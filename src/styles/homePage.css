@@ -1,0 +1,24 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+}
+
+.home-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #7C444F; 
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+    gap: 30px; 
+    width: 100%;
+    max-width: 1200px;
+    justify-content: center;
+}
