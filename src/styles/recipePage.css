@@ -160,3 +160,34 @@
 .preparation-text {
     white-space: pre-wrap;
 }
+
+.recipe-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.report-recipe-btn {
+    background: #ffffff;
+    border: 1px solid #c9babc;
+    color: #6c565a;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.report-recipe-btn:hover {
+    border-color: #E16A54;
+    color: #9F5255;
+}
+
+.recipe-success-message {
+    background: #e8f4eb;
+    border: 1px solid #b9d9c0;
+    color: #326342;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+}

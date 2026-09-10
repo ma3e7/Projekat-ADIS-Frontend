@@ -4,13 +4,15 @@ import NavbarComponent from "./components/NavBar/NavBarComponent";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import SignInComponent from "./components/SignIn/SignInComponent";
 import SignUpComponent from "./components/SignUp/SignUpComponent";
-import HomePage from "./pages/HomePage";
-import RecipePage from "./pages/RecipePage";
 import BookmarksPage from "./pages/BookmarksPage";
 import CreateRecipePage from "./pages/CreateRecipePage";
 import EditRecipePage from "./pages/EditRecipePage";
-import MyRecipesPage from "./pages/MyRecipesPage";
+import HomePage from "./pages/HomePage";
 import ModerationPage from "./pages/ModerationPage";
+import MyRecipesPage from "./pages/MyRecipesPage";
+import ProfilePage from "./pages/ProfilePage";
+import RecipePage from "./pages/RecipePage";
+import ReportsPage from "./pages/ReportsPage";
 import authService from "./services/authService";
 import "./App.css";
 
@@ -47,6 +49,14 @@ function App() {
           }
         />
         <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/my-recipes"
           element={
             <ProtectedRoute>
@@ -75,6 +85,14 @@ function App() {
           element={
             <ProtectedRoute role="admin">
               <ModerationPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/reports"
+          element={
+            <ProtectedRoute role="admin">
+              <ReportsPage />
             </ProtectedRoute>
           }
         />

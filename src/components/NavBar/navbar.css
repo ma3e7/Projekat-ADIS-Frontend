@@ -161,3 +161,12 @@ a.btn.admin {
         flex-wrap: wrap;
     }
 }
+
+.btn.admin.secondary-admin {
+    background-color: transparent;
+    border: 1px solid #F39E60;
+}
+
+.btn.admin.secondary-admin:hover {
+    background-color: rgba(243, 158, 96, 0.15);
+}

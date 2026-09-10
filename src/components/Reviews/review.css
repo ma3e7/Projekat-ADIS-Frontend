@@ -141,3 +141,70 @@
     margin-bottom: 12px;
     font-size: 0.9rem;
 }
+
+.inline-success {
+    background: #e8f4eb;
+    border: 1px solid #b9d9c0;
+    color: #326342;
+    border-radius: 7px;
+    padding: 9px 11px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+}
+
+.review-header > div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.review-reputation {
+    color: #8a777b;
+    font-size: 0.76rem;
+    font-weight: 600;
+}
+
+.review-meta-row {
+    color: #8a777b;
+    font-size: 0.82rem;
+    margin: 7px 0 10px;
+}
+
+.review-community-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 11px;
+}
+
+.helpful-btn,
+.report-review-btn {
+    border-radius: 7px;
+    padding: 7px 12px;
+    font-weight: 700;
+    cursor: pointer;
+    background: #ffffff;
+}
+
+.helpful-btn {
+    border: 1px solid #d7b99c;
+    color: #7C444F;
+}
+
+.helpful-btn.active {
+    background: #fff0e7;
+    border-color: #E16A54;
+    color: #8b493c;
+}
+
+.helpful-btn span {
+    display: inline-flex;
+    min-width: 18px;
+    justify-content: center;
+}
+
+.report-review-btn {
+    border: 1px solid #c9babc;
+    color: #6c565a;
+}

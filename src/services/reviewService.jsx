@@ -14,7 +14,7 @@ async function handleResponse(response, fallbackMessage) {
 }
 
 export async function getReviews(recipeId) {
-    const response = await fetch(`${API_URL}/${recipeId}`);
+    const response = await fetch(`${API_URL}/${recipeId}`, { headers: getAuthHeader() });
     return handleResponse(response, "Unable to fetch reviews");
 }
 
@@ -50,4 +50,12 @@ export async function deleteReview(reviewId) {
     return handleResponse(response, "Unable to delete review");
 }
 
-export default { getReviews, createReview, editReview, deleteReview };
+export async function toggleHelpfulVote(reviewId) {
+    const response = await fetch(`${API_URL}/${reviewId}/helpful`, {
+        method: "POST",
+        headers: getAuthHeader()
+    });
+    return handleResponse(response, "Unable to update helpful vote");
+}
+
+export default { getReviews, createReview, editReview, deleteReview, toggleHelpfulVote };

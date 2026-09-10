@@ -18,6 +18,7 @@ export default function NavbarComponent({ openSignIn, openSignUp, isLoggedIn, re
                     <>
                         <Link to="/bookmarks">Bookmarks</Link>
                         <Link to="/my-recipes">My Recipes</Link>
+                        <Link to="/profile">Profile</Link>
                     </>
                 )}
             </div>
@@ -38,7 +39,10 @@ export default function NavbarComponent({ openSignIn, openSignUp, isLoggedIn, re
                     <>
                         <Link to="/recipes/new" className="btn nav-action">Create Recipe</Link>
                         {user.role === "admin" && (
-                            <Link to="/admin/moderation" className="btn admin">Moderation</Link>
+                            <>
+                                <Link to="/admin/moderation" className="btn admin">Moderation</Link>
+                                <Link to="/admin/reports" className="btn admin secondary-admin">Reports</Link>
+                            </>
                         )}
                         <span>{user.username}</span>
                         <button onClick={handleLogout} className="btn logout">Sign Out</button>

@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "../styles/recipePage.css";
+import NoteComponent from "../components/Notes/NoteComponent";
+import ReportModal from "../components/Report/ReportModal";
+import ReviewComponent from "../components/Reviews/ReviewComponent";
 import { getCurrentUser } from "../services/authService";
 import recipeService from "../services/recipeService";
-import NoteComponent from "../components/Notes/NoteComponent";
-import ReviewComponent from "../components/Reviews/ReviewComponent";
+import "../styles/recipePage.css";
 
 export default function RecipePage() {
     const { recipeId } = useParams();
     const [recipe, setRecipe] = useState(null);
     const [loading, setLoading] = useState(true);
     const [bookmarkLoading, setBookmarkLoading] = useState(false);
+    const [showReport, setShowReport] = useState(false);
+    const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const user = getCurrentUser();
 
@@ -34,6 +37,7 @@ export default function RecipePage() {
 
         try {
             setBookmarkLoading(true);
+            setError("");
             const updated = await recipeService.toggleBookmark(recipeId);
             setRecipe((previous) => ({ ...previous, bookmarked: updated.recipe.bookmarked }));
         } catch (requestError) {
@@ -49,6 +53,7 @@ export default function RecipePage() {
     const ingredientRows = recipe.ingredientDetails?.length
         ? recipe.ingredientDetails
         : (recipe.ingredients || []).map((ingredient) => ({ ingredient, quantity: "", unit: "" }));
+    const isOwnRecipe = user && String(recipe.author?._id || recipe.author) === String(user._id || user.id);
 
     return (
         <div className="recipe-page">
@@ -58,15 +63,21 @@ export default function RecipePage() {
                     {recipe.author?.username && <p className="recipe-author">By {recipe.author.username}</p>}
                 </div>
                 {user && (
-                    <button
-                        className={`bookmark-btn ${recipe.bookmarked ? "bookmarked" : ""}`}
-                        onClick={handleBookmark}
-                        disabled={bookmarkLoading}
-                    >
-                        {bookmarkLoading ? "Processing..." : recipe.bookmarked ? "★ Remove Bookmark" : "☆ Bookmark"}
-                    </button>
+                    <div className="recipe-header-actions">
+                        <button
+                            className={`bookmark-btn ${recipe.bookmarked ? "bookmarked" : ""}`}
+                            onClick={handleBookmark}
+                            disabled={bookmarkLoading}
+                        >
+                            {bookmarkLoading ? "Processing..." : recipe.bookmarked ? "★ Remove Bookmark" : "☆ Bookmark"}
+                        </button>
+                        {!isOwnRecipe && <button type="button" className="report-recipe-btn" onClick={() => setShowReport(true)}>Report Recipe</button>}
+                    </div>
                 )}
             </div>
+
+            {error && <div className="inline-error">{error}</div>}
+            {message && <div className="recipe-success-message">{message}</div>}
 
             {recipe.image && <img src={recipe.image} alt={recipe.name} className="recipe-image" />}
 
@@ -102,6 +113,15 @@ export default function RecipePage() {
 
             <NoteComponent recipeId={recipeId} user={user} />
             <ReviewComponent recipeId={recipeId} user={user} />
+
+            {showReport && (
+                <ReportModal
+                    recipeId={recipeId}
+                    targetLabel="recipe"
+                    onClose={() => setShowReport(false)}
+                    onSubmitted={() => setMessage("Report submitted for moderator review.")}
+                />
+            )}
         </div>
     );
 }
