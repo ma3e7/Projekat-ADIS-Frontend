@@ -132,3 +132,12 @@
 .reviews-list {
     margin-top: 20px;
 }
+.inline-error {
+    background: #fae8e8;
+    border: 1px solid #ebc0c0;
+    color: #8f3030;
+    border-radius: 7px;
+    padding: 9px 11px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+}

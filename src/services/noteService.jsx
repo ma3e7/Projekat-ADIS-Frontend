@@ -1,8 +1,16 @@
-const API_URL = "https://lighthearted-sable-a6c328.netlify.app/api";
+import authService from "./authService";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 function getAuthHeader() {
-    const token = localStorage.getItem("authToken");
+    const token = authService.getAuthToken();
     return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+async function handleResponse(response, fallbackMessage) {
+    const data = await response.json().catch(() => null);
+    if (!response.ok) throw new Error(data?.error || data?.message || fallbackMessage);
+    return data;
 }
 
 export async function getNotes(recipeId) {
@@ -12,12 +20,7 @@ export async function getNotes(recipeId) {
             ...getAuthHeader()
         }
     });
-
-    if (!response.ok) {
-        throw new Error(`Failed to fetch notes: ${response.status}`);
-    }
-
-    return response.json();
+    return handleResponse(response, "Failed to fetch notes");
 }
 
 export async function createNote(recipeId, text) {
@@ -29,12 +32,7 @@ export async function createNote(recipeId, text) {
         },
         body: JSON.stringify({ text })
     });
-
-    if (!response.ok) {
-        throw new Error(`Failed to create note: ${response.status}`);
-    }
-
-    return response.json();
+    return handleResponse(response, "Failed to create note");
 }
 
 export async function editNote(noteId, text) {
@@ -46,27 +44,15 @@ export async function editNote(noteId, text) {
         },
         body: JSON.stringify({ text })
     });
-
-    if (!response.ok) {
-        throw new Error(`Failed to edit note: ${response.status}`);
-    }
-
-    return response.json();
+    return handleResponse(response, "Failed to edit note");
 }
 
 export async function deleteNote(noteId) {
     const response = await fetch(`${API_URL}/note/${noteId}`, {
         method: "DELETE",
-        headers: {
-            ...getAuthHeader()
-        }
+        headers: getAuthHeader()
     });
-
-    if (!response.ok) {
-        throw new Error(`Failed to delete note: ${response.status}`);
-    }
-
-    return response.json();
+    return handleResponse(response, "Failed to delete note");
 }
 
 export default { getNotes, createNote, editNote, deleteNote };

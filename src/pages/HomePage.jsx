@@ -8,13 +8,16 @@ import "../styles/homePage.css";
 export default function HomePage() {
     const [recipes, setRecipes] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
     const itemsPerPage = 16;
 
     useEffect(() => {
         getAllRecipes()
             .then(setRecipes)
-            .catch(console.error);
+            .catch((requestError) => setError(requestError.message))
+            .finally(() => setLoading(false));
     }, []);
 
     const start = currentPage * itemsPerPage;
@@ -27,8 +30,12 @@ export default function HomePage() {
 
             <SearchComponent setRecipes={setRecipes} setCurrentPage={setCurrentPage} />
 
+            {error && <div className="home-message error-message">{error}</div>}
+            {loading && <div className="home-message">Loading recipes...</div>}
+            {!loading && !error && currentRecipes.length === 0 && <div className="home-message">No recipes found.</div>}
+
             <div className="recipe-grid">
-                {currentRecipes.map(recipe => (
+                {currentRecipes.map((recipe) => (
                     <RecipeCardComponent key={recipe._id} recipe={recipe} />
                 ))}
             </div>

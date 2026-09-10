@@ -1,0 +1,128 @@
+.recipe-editor-page,
+.my-recipes-page,
+.moderation-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 34px 28px 50px;
+    font-family: Arial, sans-serif;
+}
+
+.recipe-editor-header,
+.my-recipes-header,
+.moderation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.recipe-editor-header h1,
+.my-recipes-header h1,
+.moderation-header h1 {
+    color: #7C444F;
+    margin: 8px 0 8px;
+    font-size: 2.2rem;
+}
+
+.recipe-editor-header p,
+.my-recipes-header p,
+.moderation-header p {
+    margin: 0;
+    color: #67595c;
+    line-height: 1.55;
+}
+
+.recipe-status-badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
+.status-draft {
+    background: #eee9e8;
+    color: #594e50;
+}
+
+.status-pending-review {
+    background: #fff0dc;
+    color: #86501f;
+}
+
+.status-changes-required {
+    background: #fff2d8;
+    color: #815920;
+}
+
+.status-published {
+    background: #e8f5ec;
+    color: #27613c;
+}
+
+.status-rejected {
+    background: #f9e3e3;
+    color: #8f3030;
+}
+
+.page-message {
+    border-radius: 9px;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    font-size: 0.94rem;
+    font-weight: 600;
+}
+
+.success-message {
+    background: #eaf6ed;
+    border: 1px solid #badcc3;
+    color: #28603a;
+}
+
+.error-message {
+    background: #fae8e8;
+    border: 1px solid #ebc0c0;
+    color: #8f3030;
+}
+
+.neutral-message {
+    background: #f3efee;
+    border: 1px solid #ddd1cf;
+    color: #66595b;
+}
+
+.page-loading {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 20px;
+    text-align: center;
+    color: #7C444F;
+    font-weight: 700;
+}
+
+.inline-link {
+    color: #7C444F;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.inline-link:hover {
+    color: #E16A54;
+}
+
+@media (max-width: 720px) {
+    .recipe-editor-page,
+    .my-recipes-page,
+    .moderation-page {
+        padding: 24px 16px 40px;
+    }
+
+    .recipe-editor-header,
+    .my-recipes-header,
+    .moderation-header {
+        flex-direction: column;
+    }
+}

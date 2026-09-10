@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import '../styles/recipePage.css'
-
+import "../styles/recipePage.css";
 import { getCurrentUser } from "../services/authService";
 import recipeService from "../services/recipeService";
 import NoteComponent from "../components/Notes/NoteComponent";
@@ -12,20 +11,21 @@ export default function RecipePage() {
     const [recipe, setRecipe] = useState(null);
     const [loading, setLoading] = useState(true);
     const [bookmarkLoading, setBookmarkLoading] = useState(false);
-
+    const [error, setError] = useState("");
     const user = getCurrentUser();
 
     useEffect(() => {
         async function fetchData() {
             try {
-                const r = await recipeService.getRecipeById(recipeId);
-                setRecipe(r);
-            } catch (err) {
-                console.error(err);
+                const data = await recipeService.getRecipeById(recipeId);
+                setRecipe(data);
+            } catch (requestError) {
+                setError(requestError.message);
             } finally {
                 setLoading(false);
             }
         }
+
         fetchData();
     }, [recipeId]);
 
@@ -35,50 +35,55 @@ export default function RecipePage() {
         try {
             setBookmarkLoading(true);
             const updated = await recipeService.toggleBookmark(recipeId);
-
-            setRecipe(prev => ({ ...prev, bookmarked: updated.recipe.bookmarked }));
-        } catch (err) {
-            console.error(err);
+            setRecipe((previous) => ({ ...previous, bookmarked: updated.recipe.bookmarked }));
+        } catch (requestError) {
+            setError(requestError.message);
         } finally {
             setBookmarkLoading(false);
         }
     };
 
     if (loading) return <div className="loading">Loading recipe...</div>;
-    if (!recipe) return <div className="error">Recipe not found.</div>;
+    if (!recipe) return <div className="error">{error || "Recipe not found."}</div>;
+
+    const ingredientRows = recipe.ingredientDetails?.length
+        ? recipe.ingredientDetails
+        : (recipe.ingredients || []).map((ingredient) => ({ ingredient, quantity: "", unit: "" }));
 
     return (
         <div className="recipe-page">
             <div className="recipe-header">
-                <h1>{recipe.name}</h1>
+                <div>
+                    <h1>{recipe.name}</h1>
+                    {recipe.author?.username && <p className="recipe-author">By {recipe.author.username}</p>}
+                </div>
                 {user && (
                     <button
                         className={`bookmark-btn ${recipe.bookmarked ? "bookmarked" : ""}`}
                         onClick={handleBookmark}
-                        disabled={bookmarkLoading}>
-                        {bookmarkLoading
-                            ? "Processing..."
-                            : recipe.bookmarked
-                                ? "★ Remove Bookmark"
-                                : "☆ Bookmark"}
+                        disabled={bookmarkLoading}
+                    >
+                        {bookmarkLoading ? "Processing..." : recipe.bookmarked ? "★ Remove Bookmark" : "☆ Bookmark"}
                     </button>
                 )}
             </div>
 
-            {recipe.image && (
-                <img src={recipe.image} alt={recipe.name} className="recipe-image" />
-            )}
+            {recipe.image && <img src={recipe.image} alt={recipe.name} className="recipe-image" />}
 
             <div className="recipe-info">
-                <p><strong>Cooking time:</strong> {recipe.cookingTime} min</p>
-                <p><strong>Complexity:</strong> {recipe.complexity}/5</p>
+                <p><strong>Cooking time:</strong> {recipe.cookingTime || "N/A"} {recipe.cookingTime ? "min" : ""}</p>
+                <p><strong>Complexity:</strong> {recipe.complexity || "N/A"}{recipe.complexity ? "/5" : ""}</p>
+                <p><strong>Rating:</strong> {recipe.rating || 0}/5</p>
             </div>
 
             <div className="ingredients-section">
                 <h2>Ingredients</h2>
                 <ul className="recipe-details-ingredients-list">
-                    {recipe.ingredients.map(ing => (
-                        <li key={ing._id} className="ingredient-item">{ing.name}</li>
+                    {ingredientRows.map((item, index) => (
+                        <li key={item.ingredient?._id || index} className="ingredient-item">
+                            <span>{item.ingredient?.name}</span>
+                            {(item.quantity || item.unit) && <strong>{`${item.quantity || ""} ${item.unit || ""}`.trim()}</strong>}
+                        </li>
                     ))}
                 </ul>
             </div>
@@ -87,6 +92,13 @@ export default function RecipePage() {
                 <h2>Description</h2>
                 <p className="description">{recipe.description}</p>
             </div>
+
+            {recipe.instructions && (
+                <div className="description-section">
+                    <h2>Preparation</h2>
+                    <p className="description preparation-text">{recipe.instructions}</p>
+                </div>
+            )}
 
             <NoteComponent recipeId={recipeId} user={user} />
             <ReviewComponent recipeId={recipeId} user={user} />

@@ -3,7 +3,6 @@ import authService from "../../services/authService";
 import "./navbar.css";
 
 export default function NavbarComponent({ openSignIn, openSignUp, isLoggedIn, refreshUser }) {
-
     const user = authService.getCurrentUser();
 
     const handleLogout = () => {
@@ -14,16 +13,17 @@ export default function NavbarComponent({ openSignIn, openSignUp, isLoggedIn, re
     return (
         <nav className="navbar">
             <div className="left">
-                {!isLoggedIn && (
-                    <Link to="/" className="logo-left">Four Bytes</Link>
+                {!isLoggedIn && <Link to="/" className="logo-left">Four Bytes</Link>}
+                {isLoggedIn && (
+                    <>
+                        <Link to="/bookmarks">Bookmarks</Link>
+                        <Link to="/my-recipes">My Recipes</Link>
+                    </>
                 )}
-                {isLoggedIn && <Link to="/bookmarks">Bookmarks</Link>}
             </div>
 
             <div className="center">
-                {isLoggedIn && (
-                    <Link to="/">Four Bytes</Link>
-                )}
+                {isLoggedIn && <Link to="/">Four Bytes</Link>}
             </div>
 
             <div className="right">
@@ -36,15 +36,12 @@ export default function NavbarComponent({ openSignIn, openSignUp, isLoggedIn, re
 
                 {isLoggedIn && user && (
                     <>
-                        <span>{user.username}</span>
-
+                        <Link to="/recipes/new" className="btn nav-action">Create Recipe</Link>
                         {user.role === "admin" && (
-                            <button className="btn admin">Add Recipe</button>
+                            <Link to="/admin/moderation" className="btn admin">Moderation</Link>
                         )}
-
-                        <button onClick={handleLogout} className="btn logout">
-                            Sign Out
-                        </button>
+                        <span>{user.username}</span>
+                        <button onClick={handleLogout} className="btn logout">Sign Out</button>
                     </>
                 )}
             </div>

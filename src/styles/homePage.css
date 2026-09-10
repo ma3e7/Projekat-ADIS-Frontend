@@ -22,3 +22,12 @@
     max-width: 1200px;
     justify-content: center;
 }
+.home-message {
+    width: 100%;
+    max-width: 700px;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    color: #66595b;
+}

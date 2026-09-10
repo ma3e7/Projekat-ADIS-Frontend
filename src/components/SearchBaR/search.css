@@ -113,3 +113,19 @@
     background-color: #f7f7f7;
     color: #E16A54;
 }
+.suggestions-list .suggestion-item {
+    width: 100%;
+    border: 0;
+    border-radius: 0;
+    background: white;
+    color: #333;
+    text-align: left;
+    font: inherit;
+}
+
+.remove-tag {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    line-height: 1;
+}

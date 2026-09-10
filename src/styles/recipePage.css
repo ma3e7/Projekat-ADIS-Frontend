@@ -140,3 +140,23 @@
         gap: 10px;
     }
 }
+.recipe-author {
+    margin: 6px 0 0;
+    color: #7d6c6f;
+}
+
+.ingredient-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+}
+
+.ingredient-item strong {
+    color: #7C444F;
+    white-space: nowrap;
+}
+
+.preparation-text {
+    white-space: pre-wrap;
+}

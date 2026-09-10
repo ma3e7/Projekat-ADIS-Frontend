@@ -125,3 +125,39 @@
 .btn.logout:hover {
     background-color: #c0392b;
 }
+.btn.nav-action,
+a.btn.admin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn.nav-action {
+    background-color: transparent;
+    border: 1px solid #F39E60;
+    color: #ffffff;
+}
+
+.btn.nav-action:hover {
+    background-color: rgba(243, 158, 96, 0.15);
+}
+
+@media (max-width: 900px) {
+    .navbar {
+        padding: 12px 18px;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .center {
+        order: -1;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .left,
+    .right {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+}
